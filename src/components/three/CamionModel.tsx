@@ -28,7 +28,7 @@ const CamionModel: React.FC<CamionModelProps> = ({
 
     let meshCounter = 0;
 
-    // Recorremos el grafo de escena y aplicamos material solo a mallas
+    // Recorremos el grafo de escena y aplicamos material a TODAS las mallas
     // Comentarios en español: traverse visita todos los nodos hijos recursivamente
     scene.traverse((child) => {
       // Filtrar solo Mesh
@@ -37,52 +37,42 @@ const CamionModel: React.FC<CamionModelProps> = ({
         const meshName = mesh.name && mesh.name.length ? mesh.name : `mesh_${meshCounter}`;
         meshCounter++;
 
-        // Clasificar la malla por nombre (body, wheels, bumpers, details)
-        const group = classifyMesh(meshName);
+        // DEBUG: imprimir en consola el nombre de TODAS las mallas
+        // Uso console.groupCollapsed para una salida visible y fácil de inspeccionar
+        // Esto te permitirá copiar el nombre exacto de la malla frontal después
+        // de inspeccionar la consola del navegador.
+        // Ejemplo en consola: Mesh name: Chassis_001
+        // (Se muestran también los índices para trazabilidad)
+        // eslint-disable-next-line no-console
+        console.groupCollapsed(`[CamionModel] Mesh #${meshCounter}: ${meshName}`);
+        // eslint-disable-next-line no-console
+        console.log('mesh object:', mesh);
+        // eslint-disable-next-line no-console
+        console.groupEnd();
 
-        // Registrar la malla en el store para UI/inspección
+        // Registrar la malla en el store para UI/inspección (opcional)
         registerMesh(meshName, {
           meshName,
-          group,
-          applyColor: group === 'body' || group === 'bumpers',
+          group: 'unknown',
+          applyColor: true,
           applyMaterial: true,
         });
 
-        const shouldApplyColor = group === 'body' || group === 'bumpers';
-        const isWheel = group === 'wheels';
-
-        if (shouldApplyColor) {
-          // Aplicamos el color principal y las propiedades metal/roughness
-          applyMaterialToMesh(mesh, {
-            color: materialConfig.color,
-            metalness: materialConfig.metalness,
-            roughness: materialConfig.roughness,
-          });
-        } else if (isWheel) {
-          // Ruedas: negro mate conservando cierta coherencia de material
-          applyMaterialToMesh(mesh, {
-            color: '#111111',
-            metalness: Math.min(materialConfig.metalness, 0.15),
-            roughness: Math.max(materialConfig.roughness, 0.85),
-          });
-        } else {
-          // Detalles: ajustar sutilmente metalicidad/rugosidad si es MeshStandardMaterial
-          if (mesh.material instanceof MeshStandardMaterial) {
-            const existing = mesh.material as MeshStandardMaterial;
-            existing.metalness = Math.min(existing.metalness + materialConfig.metalness * 0.25, 1);
-            existing.roughness = Math.max(existing.roughness - materialConfig.roughness * 0.15, 0);
-            existing.needsUpdate = true;
-          }
-        }
+        // TEMP: aplicar color principal y propiedades a ABSOLUTAMENTE todas las mallas
+        applyMaterialToMesh(mesh, {
+          color: materialConfig.color,
+          metalness: materialConfig.metalness,
+          roughness: materialConfig.roughness,
+        });
       }
     });
 
     setModelLoaded(true);
     // eslint-disable-next-line no-console
-    console.log(`[CamionModel] Mallas procesadas: ${meshCounter}`);
+    console.log(`[CamionModel] Mallas procesadas (total): ${meshCounter}`);
 
     return () => {
-      // cleanup: opcional
+      // cleanup opcional
     };
   }, [scene, materialConfig, registerMesh, setModelLoaded]);
 

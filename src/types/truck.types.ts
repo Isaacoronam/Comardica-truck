@@ -41,3 +41,22 @@ export const MESH_GROUPS = {
   BUMPERS: ['parachoques', 'bumper', 'defensa', 'bumper'],
   DETAILS: ['faros', 'luces', 'espejos', 'manijas', 'parrilla', 'grill', 'headlight'],
 } as const;
+
+/*
+  === INSTRUCCIONES (Solo para desarrollador) ===
+
+  Después de ejecutar el `CamionModel` en modo debug verás en la consola
+  el nombre exacto de cada malla dentro de `camion.glb`.
+
+  Para habilitar el modo "Solo Parte Delantera" pega el nombre EXACTO de la
+  malla de la cabina frontal en la constante `FRONT_CAB_MESH` que aparece
+  a continuación, reemplazando el valor 'NOMBRE_MALLA_CABINA'. Ejemplo:
+
+    export const FRONT_CAB_MESH = 'Cabina_Front_01';
+
+  Luego podrás usar `FRONT_CAB_MESH` en `CamionModel.tsx` para aplicar colores
+  únicamente a esa malla.
+
+  IMPORTANTE: usa el nombre tal cual aparece en consola (sensible a mayúsculas).
+*/
+export const FRONT_CAB_MESH = 'NOMBRE_MALLA_CABINA';
