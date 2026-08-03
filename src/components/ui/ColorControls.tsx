@@ -2,40 +2,42 @@ import React from 'react';
 import { useTruckStore } from '../../store/truckStore';
 
 const PALETTE = [
-  '#0B0B0B', '#F8F8F5', '#BDBDBD',
-  '#FF3B30', '#FF8C42', '#FFD166',
-  '#2ECC71', '#2480E3', '#6C4ACF',
-  '#FFC0CB', '#4B5563', '#1F2937',
+  '#000000', '#FFFFFF', '#64748b',
+  '#ef4444', '#f97316', '#eab308',
+  '#22c55e', '#3b82f6', '#a855f7',
 ];
 
 const ColorControls: React.FC = () => {
   const { color, setColor, resetToDefaults } = useTruckStore();
 
   return (
-    <div className="bg-white rounded-xl p-6 shadow-xl">
-      <h2 className="text-gray-900 font-bold text-lg mb-4">🎨 Paleta Premium</h2>
-
-      <div className="grid grid-cols-3 gap-4">
-        {PALETTE.map((c) => {
-          const selected = c.toLowerCase() === color.toLowerCase();
-          return (
-            <button
-              key={c}
-              onClick={() => setColor(c)}
-              className={`w-12 h-12 rounded-full transform transition-transform duration-150 focus:outline-none ${selected ? 'ring-4 ring-offset-2 ring-white' : 'hover:scale-110 hover:shadow-lg'}`}
-              style={{ background: c }}
-              aria-label={`Color ${c}`}
-            />
-          );
-        })}
+    <div className="flex flex-col gap-6">
+      <div>
+        <h2 className="text-sm font-bold text-gray-400 uppercase tracking-wider mb-4">
+          Color Principal
+        </h2>
+        <div className="grid grid-cols-4 gap-4">
+          {PALETTE.map((colorItem) => {
+            const selected = colorItem.toLowerCase() === color.toLowerCase();
+            return (
+              <button
+                key={colorItem}
+                onClick={() => setColor(colorItem)}
+                className={`w-14 h-14 rounded-full shadow-sm transition-all duration-200 ease-in-out focus:outline-none ${selected ? 'ring-4 ring-offset-2 ring-blue-500 scale-110' : 'ring-1 ring-gray-200 hover:scale-110 hover:shadow-lg'}`}
+                style={{ backgroundColor: colorItem }}
+                title={`Color ${colorItem}`}
+              />
+            );
+          })}
+        </div>
       </div>
 
-      <div className="mt-6">
+      <div className="mt-8 pt-6 border-t border-gray-100">
         <button
           onClick={() => resetToDefaults()}
-          className="px-4 py-2 bg-white border border-gray-200 text-gray-700 rounded-lg shadow-sm hover:shadow-md transition-shadow"
+          className="w-full py-3 px-4 bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold rounded-xl transition-colors flex items-center justify-center gap-2"
         >
-          Reset
+          <span>🔄</span> Restablecer Diseño
         </button>
       </div>
     </div>

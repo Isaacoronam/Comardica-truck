@@ -4,25 +4,39 @@ import ColorControls from './components/ui/ColorControls';
 
 const App: React.FC = () => {
   return (
-    <div className="min-h-screen w-full bg-[#f5f5f0]">
-      <div className="max-w-[1200px] mx-auto h-full flex">
-        {/* Left panel */}
-        <aside className="w-[350px] min-h-screen p-8 bg-white shadow-xl">
-          <div className="sticky top-8">
-            <h1 className="text-2xl font-extrabold text-gray-900 mb-4">🚛 COMARDICATRUCK</h1>
-            <p className="text-sm text-gray-500 mb-6">Personaliza la pintura del camión en tiempo real.</p>
-            <ColorControls />
-            <div className="mt-6 text-xs text-gray-400">Arrastra para rotar • Scroll para zoom</div>
-          </div>
-        </aside>
+    <div className="flex h-screen w-full bg-[#f5f5f0] overflow-hidden font-sans text-slate-800">
+      <aside className="w-[350px] bg-white shadow-2xl flex flex-col z-10 h-full">
+        <div className="p-8 flex-1 overflow-y-auto">
+          <h1 className="text-2xl font-black mb-8 flex items-center gap-2 tracking-tight">
+            <span className="text-3xl">🚛</span> COMARDICATRUCK
+          </h1>
 
-        {/* Right main area */}
-        <main className="flex-1 p-6">
-          <div className="bg-[#1a1a1a] rounded-3xl m-6 shadow-2xl p-6 h-[80vh]">
+          <div className="mb-6 flex gap-4 border-b border-gray-100 pb-4">
+            <button className="font-bold text-blue-600 border-b-2 border-blue-600 pb-1">
+              🎨 Pintura
+            </button>
+            <button className="font-semibold text-gray-400 hover:text-gray-600 transition-colors pb-1">
+              🔧 Piezas
+            </button>
+          </div>
+
+          <div className="space-y-6">
+            <ColorControls />
+          </div>
+        </div>
+      </aside>
+
+      <main className="flex-1 p-6 md:p-8">
+        <div className="w-full h-full bg-[#1a1a1a] rounded-[2rem] shadow-inner overflow-hidden relative border border-gray-800">
+          <div className="absolute bottom-6 left-0 right-0 text-center text-gray-400 text-sm z-10 pointer-events-none opacity-60">
+            Arrastra para rotar • Scroll para zoom
+          </div>
+
+          <div className="w-full h-full cursor-grab active:cursor-grabbing">
             <CanvasWrapper />
           </div>
-        </main>
-      </div>
+        </div>
+      </main>
     </div>
   );
 };
