@@ -2,26 +2,27 @@ import React from 'react';
 import { useTruckStore } from '../../store/truckStore';
 
 const PALETTE = [
-  '#000000', '#FFFFFF', '#888888',
-  '#FF4D4D', '#FF7A2D', '#FFD54F',
-  '#4CAF50', '#2196F3', '#6A1B9A',
+  '#0B0B0B', '#F8F8F5', '#BDBDBD',
+  '#FF3B30', '#FF8C42', '#FFD166',
+  '#2ECC71', '#2480E3', '#6C4ACF',
+  '#FFC0CB', '#4B5563', '#1F2937',
 ];
 
 const ColorControls: React.FC = () => {
   const { color, setColor, resetToDefaults } = useTruckStore();
 
   return (
-    <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 shadow-2xl border border-white/20 w-40">
-      <h2 className="text-white font-semibold mb-3 text-sm">🎨 Paleta</h2>
+    <div className="bg-white rounded-xl p-6 shadow-xl">
+      <h2 className="text-gray-900 font-bold text-lg mb-4">🎨 Paleta Premium</h2>
 
-      <div className="grid grid-cols-3 gap-3">
+      <div className="grid grid-cols-3 gap-4">
         {PALETTE.map((c) => {
           const selected = c.toLowerCase() === color.toLowerCase();
           return (
             <button
               key={c}
               onClick={() => setColor(c)}
-              className={`w-8 h-8 rounded-full focus:outline-none ${selected ? 'ring-2 ring-white' : ''}`}
+              className={`w-12 h-12 rounded-full transform transition-transform duration-150 focus:outline-none ${selected ? 'ring-4 ring-offset-2 ring-white' : 'hover:scale-110 hover:shadow-lg'}`}
               style={{ background: c }}
               aria-label={`Color ${c}`}
             />
@@ -29,8 +30,11 @@ const ColorControls: React.FC = () => {
         })}
       </div>
 
-      <div className="mt-3">
-        <button onClick={() => resetToDefaults()} className="text-sm text-white/80 underline">
+      <div className="mt-6">
+        <button
+          onClick={() => resetToDefaults()}
+          className="px-4 py-2 bg-white border border-gray-200 text-gray-700 rounded-lg shadow-sm hover:shadow-md transition-shadow"
+        >
           Reset
         </button>
       </div>
